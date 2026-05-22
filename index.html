@@ -1,0 +1,1218 @@
+<! --
+
+WELCOME TO CINE CLOUD,
+
+As i promised code is 100% opensourced, feel free to fork it, copy it, remake it whatever.
+
+I should have put like helpful comments for ya here and there that can help you.
+
+ --!>
+
+
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cine-Cloud OS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap');
+
+/* START OF CSS!!! */
+:root {
+  --bg: #050505;
+  --glass: rgba(22, 22, 25, 0.6);
+  --glass-hover: rgba(35, 35, 40, 0.8);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f5f5f7;
+  --muted: #888890; 
+  --accent: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+  /*BODY */
+body {
+  margin: 0; padding: 0; background: var(--bg); color: var(--text);
+  font-family: 'Inter', sans-serif; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased; user-select: none;
+  height: 100vh; display: flex; flex-direction: column;
+}
+
+::-webkit-scrollbar { width: 0; }
+
+/* BRANDING NOTCH */
+.top-notch {
+  background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border); border-top: none;
+  border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;
+  padding: 8px 24px; display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.top-notch img { width: 18px; opacity: 0.9; }
+.top-notch span { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;}
+
+/* --- BOOTS --- */
+#new-boot {
+  position: fixed; inset: 0; background: #020202; z-index: 9999999;
+  display: flex; justify-content: center; align-items: center;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.boot-logo-wrapper {
+  display: flex; flex-direction: column; align-items: center; gap: 25px;
+}
+
+.start-boot .boot-logo-wrapper {
+  animation: bootScale 3.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.boot-icon {
+  width: 75px; height: 75px; opacity: 0;
+}
+.start-boot .boot-icon {
+  animation: fadeIn 1s ease 0.4s forwards;
+}
+
+.boot-text {
+  font-size: 34px; font-weight: 800; letter-spacing: 6px; text-transform: uppercase;
+  opacity: 0; text-shadow: 0 0 30px rgba(255,255,255,0.2);
+}
+.start-boot .boot-text {
+  animation: fadeIn 1s ease 0.7s forwards;
+}
+
+@keyframes bootScale {
+  0% { transform: scale(0.9); }
+  100% { transform: scale(1.05); }
+}
+
+
+  /*FADE IN! */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* --- Background(s?!?!? maybe ikd) --- */
+#bg-amb {
+  position: fixed; inset: 0; object-fit: cover; opacity: 0.06; 
+  filter: blur(80px) saturate(120%); z-index: -1; 
+  transition: opacity 1.5s ease, filter 1.5s ease; width: 100vw; height: 100vh;
+  pointer-events: none;
+}
+
+/* APPS */
+#app-wrap {
+  flex: 1; overflow-y: auto; padding: 60px 100px 180px 100px;
+}
+
+.tab-view { display: none; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.tab-view.active { display: block; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+.sec-head {
+  font-size: 22px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 25px; margin-top: 60px;
+  display: flex; align-items: center; gap: 12px; color: #fff;
+}
+.sec-head::before { content: ''; width: 4px; height: 18px; background: #fff; border-radius: 4px; }
+
+/* SEARCH INPUT */
+.lib-search-wrap { margin-bottom: 30px; position: relative; }
+.lib-search-wrap input {
+  width: 100%; padding: 18px 24px 18px 50px; border-radius: 16px;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  color: #fff; font-size: 15px; outline: none; transition: 0.3s;
+  font-family: 'Inter', sans-serif; backdrop-filter: blur(10px);
+}
+.lib-search-wrap input:focus { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.lib-search-wrap svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; stroke: #aaa; }
+
+/* RECOMMENDES */
+.marquee-wrap { width: 100%; overflow: hidden; position: relative; padding: 10px 0; border-radius: 16px; }
+.marquee-track { display: flex; gap: 25px; width: max-content; animation: slideLeft 40s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes slideLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* --- Banner!! --- */
+.hero-cont {
+  width: 100%; height: 500px; border-radius: 20px; overflow: hidden; position: relative;
+  cursor: pointer; border: 1px solid var(--border);
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+
+  /*Hobver Animation*/
+.hero-cont:hover {
+  transform: translateY(-6px); box-shadow: 0 30px 80px rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.2);
+}
+
+.h-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); opacity: 0.8;}
+.hero-cont:hover .h-img { transform: scale(1.03); opacity: 1;}
+
+.h-over {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 60px;
+}
+
+.h-tag {
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 18px; font-size: 11px; font-weight: 700; border-radius: 100px; letter-spacing: 1px;
+  margin-bottom: 20px; align-self: flex-start; text-transform: uppercase;
+}
+
+.h-title { font-size: 60px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -2px; }
+.h-stat { font-size: 15px; color: #aaa; display: flex; gap: 20px; font-weight: 500;}
+
+/* This is the GRID! */
+.grid-h { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+.grid-v { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+
+.c-h {
+  position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; cursor: pointer;
+  background: #080808; border: 1px solid var(--border); flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); width: 320px; /* fixed width for marquee */
+}
+.grid-h .c-h { width: 100%; } /* normal grids */
+
+.c-v {
+  position: relative; aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; cursor: pointer;
+  background: #080808; border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.c-h img, .c-v img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.5s; filter: grayscale(20%);}
+.c-h:hover, .c-v:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.2); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+.c-h:hover img, .c-v:hover img { opacity: 1; transform: scale(1.05); filter: grayscale(0%);}
+
+.c-inf {
+  position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 25px 25px; box-sizing: border-box;
+  background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+  opacity: 0; transform: translateY(15px); transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.c-h:hover .c-inf, .c-v:hover .c-inf { opacity: 1; transform: translateY(0); }
+.c-inf h3 { font-size: 16px; font-weight: 600; margin: 0 0 6px 0; letter-spacing: -0.5px;}
+.c-inf span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 500;}
+
+.c-time-hover {
+  display: flex; align-items: center; gap: 6px; font-size: 11px; color: #aaa;
+  margin-top: 8px; font-weight: 600;
+}
+.c-time-hover svg { width: 14px; height: 14px; stroke: #aaa; }
+
+/* THE Bottom Dock */
+.dock-wrap {
+  position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 15px; z-index: 10000000000;
+}
+
+.main-dock {
+  background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  
+  border: 1px solid var(--border); border-radius: 80px;
+  display: flex; align-items: center; padding: 10px 14px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  
+}
+
+.d-logo {
+  width: 26px; height: 26px; margin: 0 12px 0 10px; object-fit: contain;
+  opacity: 0.8; transition: 0.3s; cursor: pointer;
+}
+
+  
+.d-logo:hover { opacity: 1; transform: scale(1.1); }
+.d-sep { width: 1px; height: 24px; background: var(--border); margin: 0 6px; }
+
+
+
+
+  
+.d-btn {
+  padding: 10px 26px; border-radius: 100px; color: var(--muted);
+  font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.3s;
+}
+.d-btn:hover { 
+  color: #fff; 
+  background: 
+    rgba(255,255,255,0.05); 
+}
+
+  
+.d-btn.active { 
+  color: #000; 
+  background: #fff; 
+  font-weight: 600; 
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2); 
+}
+
+.trk-widg {
+  background: var(--glass); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--border); border-radius: 100px;
+  height: 60px; padding: 6px; display: none; align-items: center; gap: 14px;
+  box-sizing: border-box; overflow: hidden; max-width: 60px; 
+  transition: max-width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.3s;
+  cursor: pointer; white-space: nowrap; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+}
+.trk-widg:hover { max-width: 340px; background: var(--glass-hover); border-color: rgba(255,255,255,0.2); }
+
+.tw-img {
+  width: 46px; height: 46px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.tw-txt { display: flex; flex-direction: column; flex-shrink: 0; margin-right: 10px; }
+.tw-txt small { font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+.tw-txt strong { font-size: 13px; font-weight: 500; color: #aaa; text-overflow: ellipsis; overflow: hidden; max-width: 130px; }
+
+.tw-btn {
+  background: #fff; color: #000; font-size: 12px; padding: 10px 20px; border-radius: 100px; border: none;
+  cursor: pointer; font-weight: 700; transition: 0.3s;
+  opacity: 0; transform: translateX(15px); pointer-events: none; text-transform: uppercase;
+}
+.trk-widg:hover .tw-btn { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.tw-btn:hover { background: #e0e0e0; transform: scale(1.05); }
+
+.tw-btn.quit { background: rgba(255, 60, 60, 0.15); color: #ff4d4d; border: 1px solid rgba(255, 60, 60, 0.3); }
+.tw-btn.quit:hover { background: #ff4d4d; color: #fff; }
+
+/* ModalSSS */
+#modal-ui {
+  position: fixed; inset: 0; background: var(--bg); z-index: 500; display: none; opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto;
+}
+
+.m-bg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 90vh;
+  object-fit: cover; opacity: 0.15; filter: blur(40px);
+  mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 10%, transparent 100%);
+}
+
+.m-close {
+  position: fixed; top: 40px; right: 60px; width: 45px; height: 45px;
+  border-radius: 50%; background: var(--glass); backdrop-filter: blur(20px);
+  border: 1px solid var(--border); display: flex; justify-content: center; align-items: center;
+  cursor: pointer; transition: 0.3s; z-index: 10;
+}
+.m-close:hover { background: #fff; transform: rotate(90deg) scale(1.05); }
+.m-close:hover svg { stroke: #000; }
+
+.m-grid {
+  position: relative; z-index: 2; padding: 100px; max-width: 1400px; margin: 0 auto;
+  display: flex; gap: 70px; align-items: flex-start;
+}
+
+.m-l { width: 340px; flex-shrink: 0; }
+.m-l img { width: 100%; border-radius: 16px; box-shadow: 0 40px 80px rgba(0,0,0,0.8); border: 1px solid var(--border); margin-bottom: 30px;}
+
+.m-play {
+  width: 100%; background: #fff; color: #000; border: none; padding: 20px 0; font-size: 15px; font-weight: 700;
+  border-radius: 12px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px;
+  display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 30px;
+}
+.m-play:hover { background: #e0e0e0; box-shadow: 0 10px 25px rgba(255,255,255,0.15); transform: translateY(-3px); }
+/*PLACE .ms here -4/29/26*/
+.m-stats { background: rgba(20,20,20,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 25px; display: flex; flex-direction: column; gap: 20px; backdrop-filter: blur(15px);}
+.m-rw { display: flex; justify-content: space-between; align-items: center; }
+.m-rw small { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+.m-rw span { font-size: 14px; font-weight: 500; color: #fff; }
+
+.m-r { flex: 1; padding-top: 10px;}
+.m-t { font-size: 72px; font-weight: 800; letter-spacing: -3px; margin: 0 0 10px 0; line-height: 1; text-shadow: 0 10px 30px rgba(0,0,0,0.5);}
+.m-d { font-size: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 3px; font-weight: 500; margin-bottom: 35px; }
+
+.m-tgs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 35px; }
+.m-tg { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 500; color: #ccc; }
+
+.m-desc { font-size: 16px; line-height: 1.7; color: #aaa; margin-bottom: 50px; max-width: 850px; font-weight: 300; }
+
+.m-req { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; border-top: 1px solid var(--border); padding-top: 40px; }
+.m-rc h4 { font-size: 14px; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0; font-weight: 600;}
+.m-ri { margin-bottom: 15px; }
+.m-ri small { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 600; letter-spacing: 1px;}
+.m-ri span { display: block; font-size: 13px; color: #ccc; font-weight: 400; line-height: 1.5;}
+
+/*  Alert Popups  */
+.popup-wrap {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+  display: flex; justify-content: center; align-items: center; z-index: 999999999999;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.popup-wrap.show { opacity: 1; visibility: visible; }
+.popup-box {
+  background: rgba(18, 18, 22, 0.85); border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px; border-radius: 24px; text-align: center; max-width: 400px; width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+  transform: scale(0.95); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.popup-wrap.show .popup-box { transform: scale(1); }
+.popup-icon-container {
+  width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 255, 255, 0.05);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.popup-box h2 { margin: 0 0 10px 0; font-size: 22px; font-weight: 600; letter-spacing: -0.5px; color: #fff;}
+.popup-box p { color: #aaa; font-size: 15px; line-height: 1.5; margin: 0 0 25px 0; font-weight: 400; }
+.popup-btn-row { display: flex; gap: 12px; justify-content: center; }
+.popup-btn { 
+  padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; transition: 0.3s; flex: 1;
+}
+.popup-btn.primary { background: #fff; color: #000; }
+.popup-btn.primary:disabled { background: #555; color: #aaa; cursor: not-allowed; }
+.popup-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
+.popup-btn:not(:disabled):hover { transform: translateY(-2px); }
+
+/*  Tutorial Page n iFrames, uh this is the ui for the Tutorial page i made  */
+.tut-cnt { max-width: 900px; margin: 0 auto; text-align: center; }
+.tut-cnt video { width: 100%; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.6); margin-bottom: 30px; background: #000; }
+
+.show-login-btn {
+  background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff;
+  padding: 14px 32px; border-radius: 100px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+  cursor: pointer; transition: 0.3s; margin-bottom: 40px; display: inline-block;
+}
+.show-login-btn:hover { background: #fff; color: #000; transform: translateY(-2px); }
+
+#frame-area {
+  max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.8s ease, opacity 0.8s ease;
+  display: flex; flex-direction: column; gap: 30px; margin-top: 10px;
+}
+#frame-area.show { max-height: 2500px; opacity: 1; }
+
+.f-box { background: #080808; border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); text-align: left; }
+.f-box h3 { margin: 0 0 15px 0; font-size: 15px; font-weight: 500; color: #fff; display: flex; align-items: center; gap: 10px;}
+.f-box h3::before { content: ''; width: 4px; height: 14px; background: #fff; border-radius: 4px; }
+.f-box iframe { width: 100%; border: none; border-radius: 10px; background: #fff; }
+.f-rac { height: 501px; }
+.f-mail { height: 602px; }
+
+.auth-success-box {
+  background: rgba(20, 20, 25, 0.8); border: 1px solid var(--border);
+  padding: 30px; border-radius: 16px; display: inline-block;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5); text-align: center; margin-bottom: 30px;
+}
+.auth-success-box h3 { margin: 0 0 8px 0; font-size: 20px; color: #fff; font-weight: 600; }
+.auth-success-box p { margin: 0 0 20px 0; color: #aaa; font-size: 14px; }
+
+.verify-manual-btn {
+  background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  padding: 10px 20px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: 0.3s;
+  margin-top: 15px; width: 100%;
+}
+.verify-manual-btn:hover { background: #fff; color: #000; }
+
+</style>
+</head>
+<body>
+
+<div style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; gap: 10px;">
+  <div class="top-notch" onclick="tglV('h')" style="position: relative; left: auto; top: auto; transform: none; cursor: pointer;">
+    <img src="https://freepngimg.com/convert-png/89656-icons-circle-computer-black-white-steam" alt="Logo">
+    <span>Cine-Cloud by C.S</span> <! Just incase you dont know C.S stands for Cine-Softwares !>
+  </div>
+  <div class="top-notch" id="n-game" onclick="tglV('g')" style="position: relative; left: auto; top: auto; transform: none; cursor: pointer; display: none; background: rgba(255,255,255,0.15);">
+    <span id="n-game-title" style="color: #fff;">Game</span>
+    <span onclick="clsGm(event)" style="margin-left: 8px; color: #ff4d4d; font-weight: bold; font-size: 16px;">×</span>
+  </div>
+</div>
+
+<! THE Boot Screen !>
+<div id="new-boot">
+  <div class="boot-logo-wrapper">
+    
+    <img src="https://freepngimg.com/convert-png/89656-icons-circle-computer-black-white-steam" class="boot-icon" alt="Logo">
+    
+    <div class="boot-text">CINE-CLOUD</div>
+  </div>
+</div>
+
+<img src="" id="bg-amb">
+
+<div id="app-wrap">
+
+  <div id="v-cine" class="tab-view active">
+    <div id="error-fallback" style="display:none;"></div>
+    
+    <div id="cine-content">
+      <div class="sec-head" id="hc-head" style="margin-top:0;">Continue Playing</div>
+      <div class="hero-cont" id="hc-box" onclick="">
+        <img src="" id="hc-img" class="h-img">
+        <div class="h-over">
+         
+          <div class="h-tag" id="hc-tag">RESUME</div>
+          
+          <h1 class="h-title" id="hc-title">...</h1>
+          
+          
+          <div class="h-stat">
+
+            
+            <span id="hc-time"></span>
+            <span id="hc-dev"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-head">Games We Recommend</div> <! NOTE: FIND A REAL !>
+      <div class="marquee-wrap">
+        <div class="marquee-track" id="g-recom-track"></div>
+      </div>
+
+      <div class="sec-head">Poppy Playtime Universe</div>
+      <div class="grid-h" id="g-poppy"></div>
+
+      <div class="sec-head">Racing & Driving</div>
+      <div class="grid-h" id="g-race"></div>
+
+      <div class="sec-head">Daily Picks</div>
+      <div class="grid-h" id="g-day"></div>
+
+      <div class="sec-head">Trending Now</div>
+      <div class="grid-h" id="g-trnd"></div>
+    </div>
+  </div>
+ <! Might add mroe in later updates !>
+  <div id="v-lib" class="tab-view">
+    <div class="sec-head" style="margin-top:0;">Complete Library</div>
+    <div class="lib-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="lib-search" placeholder="Search games by name, tag, or genre..." onkeyup="filterLib()">
+    </div>
+    <div class="grid-v" id="g-lib"></div>
+  </div>
+
+  <div id="v-tut" class="tab-view">
+    <div class="tut-cnt">
+      <h1 style="font-weight: 400; font-size: 42px; margin-bottom: 12px; letter-spacing:-1px;">Setup Guide</h1>
+      <p style="color: #888; margin-bottom: 40px; font-size: 15px;">Make sure you watch this quick video so everything runs smoothly.</p>
+      
+      <video controls><source src="Tutorial.mp4" type="video/mp4"></video> <! IF YOUR MAKING YOUR OWN VERSION, You can change the path and title for the tutorial or remove it i guess !>
+      
+      <button class="show-login-btn" id="login-trigger" onclick="openAuthTray()">Log in to play</button>
+
+      <div id="auth-success" style="display:none;">
+        <div class="auth-success-box">
+            <h3>You're All Set!</h3>
+            <p>Your Logged In and ready.</p> <! Auto like detect when the user logs in by checking iframe url !>
+        </div>
+      </div>
+      
+      <div id="frame-area">
+       
+        <div class="f-box" id="frame-wrapper">
+          
+         <h3>Log in with Raccoon</h3>
+          <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+            <p style="margin: 0 0 10px 0; color: #fff; font-size: 14px; font-weight: 600;">[BETA]: This is temporary, see if you can login by clicking the button below</p>
+            <a href="https://www.raccoongame.com/login?redirect_uri=https%3A%2F%2Fwww.raccoongame.com%2Fwap%2Fdist%2F%23%2Fplatform%2Fset&lang=en" target="_blank" style="display: inline-block; padding: 10px 20px; background: #fff; color: #000; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px;">Open Login in New Tab</a>
+          </div>
+          <iframe id="rac-frame" class="f-rac" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+          <button class="verify-manual-btn" onclick="markAsLoggedIn()">I have successfully logged in</button>
+        </div>
+        <div class="f-box" id="mail-wrapper">
+          <h3>Need a temp email?</h3>
+          <iframe class="f-mail" src="https://tempmail.ing/"></iframe> <! this is the link we iframe to the user to give them a temp link !>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="dock-wrap">
+  <div class="main-dock">
+    <img src="https://freepngimg.com/convert-png/89656-icons-circle-computer-black-white-steam" class="d-logo">
+    <div class="d-sep"></div>
+    <div class="d-btn active" id="b-cine" onclick="chgTab('cine')">Cine</div>
+    <div class="d-btn" id="b-lib" onclick="chgTab('lib')">Library</div>
+    <div class="d-btn" id="b-tut" onclick="chgTab('tut')">Tutorial</div>
+  </div>
+
+  <div class="trk-widg" id="tk">
+    <img src="" class="tw-img" id="tk-img">
+    <div class="tw-txt">
+      <small id="tk-lbl">Last Played</small>
+      <strong id="tk-nm">...</strong>
+    </div>
+    <button class="tw-btn" id="tk-btn" onclick="tkAction()"></button>
+  </div>
+</div>
+
+<div id="modal-ui">
+  <img src="" class="m-bg" id="mdl-bg">
+  <div class="m-close" onclick="clsMdl()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  </div>
+  
+  <div class="m-grid">
+    <div class="m-l">
+      <img src="" id="mdl-post">
+      <button class="m-play" onclick="try2launch()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
+        Play
+      </button>
+      <div class="m-stats">
+        <div class="m-rw"><small>Play Time</small><span id="mdl-tm"></span></div>
+        <div class="m-rw"><small>Last Played</small><span id="mdl-lp"></span></div>
+        <div class="m-rw"><small>Achievements</small><span id="mdl-ac"></span></div>
+      </div>
+    </div>
+    
+    <div class="m-r">
+      <h1 class="m-t" id="mdl-t"></h1>
+      <div class="m-d" id="mdl-d"></div>
+      
+      <div class="m-tgs" id="mdl-tg"></div>
+      <div class="m-desc" id="mdl-dc"></div>
+      
+      <div class="m-req">
+        <div class="m-rc">
+          <h4>Minimum</h4>
+          <div class="m-ri"><small>OS</small><span id="qm-os"></span></div>
+          <div class="m-ri"><small>Processor</small><span id="qm-cpu"></span></div>
+          <div class="m-ri"><small>Memory</small><span id="qm-ram"></span></div>
+          <div class="m-ri"><small>Graphics</small><span id="qm-gpu"></span></div>
+        </div>
+        <div class="m-rc">
+          <h4>Recommended</h4>
+          <div class="m-ri"><small>OS</small><span id="qr-os"></span></div>
+          <div class="m-ri"><small>Processor</small><span id="qr-cpu"></span></div>
+          <div class="m-ri"><small>Memory</small><span id="qr-ram"></span></div>
+          <div class="m-ri"><small>Graphics</small><span id="qr-gpu"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<! Disclaimer like pop up !>
+<div class="popup-wrap" id="p-legal-block">
+  <div class="popup-box" style="max-width: 500px;">
+    <div class="popup-icon-container" style="background:rgba(255,200,0,0.1); border:1px solid rgba(255,200,0,0.2);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc800" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    </div> <! putting this here so i dont get in trouble ;) !>
+    <h2>Legal Notice & Disclaimer</h2>
+    <div id="legal-scroll" style="max-height:160px; overflow-y:auto; font-size:13px; line-height: 1.6; color:#aaa; text-align:left; padding:15px; background:rgba(0,0,0,0.3); border-radius:12px; margin-bottom:20px; border: 1px solid var(--border);" onscroll="checkLegalScroll(this)">
+      <p><strong>Please read carefully before proceeding.</strong></p>
+      <p>Cine Softwares and the Cine-Cloud platform are not hosting, storing, or distributing any of the games presented on this application. All games are merely embedded via standard iFrames pointing directly to their original providers.</p>
+      <p>We do not claim ownership of any trademarks, copyrighted materials, or intellectual property displayed within the application. If there are any legal disputes or DMCA claims regarding the hosting and playing of these games, they should be directed towards the source host, <strong>Raccoon Games</strong>.</p>
+      <p>By clicking "I Agree", you acknowledge that Cine Softwares acts solely as a UI aggregator and is free from any liability regarding third-party content.</p>
+      <p><em>Scroll to the bottom to accept. NOTE THIS PLEASE, YOU MUST ALLOW POP UPS!</em></p><br><br><br><br>
+      <p>End of notice.</p>
+    </div>
+
+    
+    <div class="popup-btn-row">
+      
+      <button class="popup-btn primary" id="btn-legal-accept" disabled onclick="acceptLegal()" style="width:100%;">I Agree</button>
+    
+    
+    </div>
+  </div>
+</div>
+
+<div class="popup-wrap" id="p-tut-block" onclick="closePopupClick(event)">
+  <div class="popup-box">
+    <div class="popup-icon-container">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+    </div>
+    <h2>Wait up!</h2>
+    <p>It looks like you haven't completed the setup video yet. IF YOU HAVE WATCHED IT AND FOLLOWED THROUGH PLEASE PRESS ENTER TWICE</p>
+    <div class="popup-btn-row">
+      <button class="popup-btn secondary" onclick="hidePopup('p-tut-block')">Cancel</button>
+      <button class="popup-btn primary" onclick="goToTutorial()">Go to Tutorial</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup-wrap" id="p-sess-block" onclick="closePopupClick(event)">
+  <div class="popup-box">
+    <div class="popup-icon-container" style="background:rgba(255,77,77,0.1);border:1px solid rgba(255,77,77,0.2);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    </div>
+    <h2>Session Active</h2>
+    <p>You're already playing a game! Make sure to exit your current session before starting a new one.</p> <! feel like i had to add thos cuz why not !>
+    <div class="popup-btn-row">
+      
+      <button class="popup-btn primary" style="width: 100%;" onclick="hidePopup('p-sess-block')">Got it</button>
+    </div>
+  
+  </div>
+</div>
+
+<div id="game-layer" style="display:none; position:fixed; inset:0; background:#000; z-index:900;">
+  <div id="bS" style="position:absolute; inset:0; background:#000; z-index:9002; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; font-family:sans-serif;">
+    <h2 id="bS-t" style="margin:0 0 20px 0;">Loading...</h2>
+    <span style="font-size:14px; color:#aaa; text-align:center; max-width:450px; line-height:1.6;">Notice: If you exit fullscreen, the mouse lock will break.<br>Use <b>ALT + Z</b> (hold 3s) to lock mouse and fullscreen.<br>Use <b>ALT + C</b> (hold 3s) to safely exit.</span>
+  </div>
+  <div id="lO" style="position:absolute; inset:0; background:rgba(10,10,15,0.95); z-index:9003; display:none; justify-content:center; align-items:center; flex-direction:column; color:#fff; font-family:sans-serif;">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2" style="margin-bottom:20px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    <h1 style="margin:0 0 10px 0; font-size:32px; font-weight:700; letter-spacing:-1px;">Session Expired</h1>
+    <p style="color:#aaa; font-size:16px; max-width:450px; line-height:1.6; margin-bottom: 30px;">Logged out. Go to Tutorial tab to log in.</p>
+    <button onclick="clsGm()" style="padding:14px 36px; background:#fff; color:#000; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer;">Close</button>
+  </div>
+  <button id="fB" onclick="mnLk()" style="position:absolute; top:60px; right:20px; z-index:9001; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:10px; border-radius:8px; cursor:pointer;" title="Hold ALT + Z for 3 secs to lock mouse">🖵</button>
+  <div id="tD" style="position:absolute; top:-100px; left:50%; transform:translateX(-50%); z-index:9004; background:#000; border:2px solid #fff; border-radius:50%; width:50px; height:50px; display:flex; justify-content:center; align-items:center; color:#fff; font-family:sans-serif; font-weight:bold; font-size:20px; transition:top 0.3s ease;">3</div>
+  <div id="eD" style="position:absolute; top:-100px; left:50%; transform:translateX(-50%); z-index:9004; background:#ff4d4d; border:2px solid #fff; border-radius:50%; width:50px; height:50px; display:flex; justify-content:center; align-items:center; color:#fff; font-family:sans-serif; font-weight:bold; font-size:20px; transition:top 0.3s ease;">3</div>
+  <iframe id="gF" allow="autoplay;fullscreen;pointer-lock;keyboard-map;clipboard-read;clipboard-write;gamepad" style="width:100%; height:100%; border:none; display:block; outline:none;"></iframe>
+</div>
+
+<script src="/random/gamelayout.js"></script>
+
+<script>
+//  THE FUNCTIONALITTTYTYYYYYYYYY!!! 
+let lsDB = JSON.parse(localStorage.getItem('cine_store_v10') || '{}');
+function sLS() { localStorage.setItem('cine_store_v10', JSON.stringify(lsDB)); }
+
+function msToTm(s) {
+  if(!s) return "0m";
+  let h = Math.floor(s/3600); let m = Math.floor((s%3600)/60);
+  return h>0 ? `${h}h ${m}m` : `${m}m`;
+}
+
+function tsToDt(t) {
+  if(!t) return "Never";
+  let d = Date.now() - t;
+  if(d < 86400000) return "Today";
+  if(d < 172800000) return "Yesterday";
+  return new Date(t).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+}
+
+
+  // tell the time use rplayed 
+function formatPlaytimeHover(secs) {
+  if(!secs) return "00d:00h:00m";
+  let d = Math.floor(secs / 86400);
+  let h = Math.floor((secs % 86400) / 3600);
+  let m = Math.floor((secs % 3600) / 60);
+  return `${d.toString().padStart(2,'0')}d:${h.toString().padStart(2,'0')}h:${m.toString().padStart(2,'0')}m`;
+}
+
+window.addEventListener('load', () => {
+  // legal notice
+  if(!localStorage.getItem('cine_legal_accepted')) {
+    showPopup('p-legal-block');
+  }
+
+  let boot = document.getElementById('new-boot');
+  boot.style.display = 'flex'; 
+  
+  setTimeout(() => { boot.classList.add('start-boot'); }, 100);
+
+  setTimeout(() => {
+    boot.style.opacity = '0';
+    setTimeout(() => { 
+      boot.style.display = 'none'; 
+      document.getElementById('app-wrap').style.opacity = '1';
+      if (typeof G_DATA !== 'undefined') dodeLayout(); 
+    }, 800);
+  }, 3500); 
+});
+
+let heroArr = [];
+let hIdx = 0;
+let heroInterval;
+
+function dodeLayout() {
+  if (typeof G_DATA === 'undefined') return;
+
+  // THIS IS THE BANNER LIKE SPINNING LOGIC!
+  heroArr = [];
+  let pg = Object.keys(lsDB).filter(k => lsDB[k] && lsDB[k].t > 0).sort((a,b) => lsDB[b].l - lsDB[a].l);
+  
+  if(pg.length > 0) {
+    let lp = G_DATA.find(x => x.id === pg[0]);
+    if(lp) heroArr.push({...lp, tag: 'RESUME', sub: msToTm(lsDB[lp.id].t) + ' Played'});
+  }
+  
+  let rnd = [...G_DATA].sort(() => 0.5 - Math.random()).slice(0, 3);
+  rnd.forEach(r => {
+    if(!heroArr.find(x => x.id === r.id)) {
+     
+      heroArr.push({...r, tag: 'FEATURED', sub: r.tags.join(" • ")});
+    }
+  });
+
+  rendertheBanner();
+  if(heroInterval) clearInterval(heroInterval);
+  heroInterval = setInterval(() => {
+    hIdx = (hIdx + 1) % heroArr.length;
+    rendertheBanner();
+  }, 6000);
+
+  // CATEGORIES & GRIDS
+  let dayHtml = '', trndHtml = '', libHtml = '';
+  
+  let popFilter = G_DATA.filter(g => g.n.toLowerCase().includes('poppy'));
+  let raceFilter = G_DATA.filter(g => g.tags.includes('Racing') || g.tags.includes('Driving'));
+  let recFilter = [...G_DATA].sort(() => 0.5 - Math.random()).slice(0, 10); // Recommendations
+  
+  G_DATA.forEach((g, i) => {
+    libHtml += makethecard(g, 'v');
+    if(i < 4) dayHtml += makethecard(g, 'h');
+    // Trending limit fix -> Only take next 4
+    else if(i >= 4 && i < 8) trndHtml += makethecard(g, 'h');
+  });
+
+  let recHtml = recFilter.map(g => makethecard(g, 'h')).join('');
+
+  //category functions
+  document.getElementById('g-recom-track').innerHTML = recHtml + recHtml; // DUPE FOR COOL EFFECT!
+  document.getElementById('g-poppy').innerHTML = popFilter.map(g => makethecard(g, 'h')).join(''); //POPPY GAMES
+  document.getElementById('g-race').innerHTML = raceFilter.slice(0, 4).map(g => makethecard(g, 'h')).join(''); //RACING GAMES
+  document.getElementById('g-day').innerHTML = dayHtml;
+  document.getElementById('g-trnd').innerHTML = trndHtml; //TRENDING
+  document.getElementById('g-lib').innerHTML = libHtml; //LIBRARY
+
+  rfrTrk();
+}
+
+function rendertheBanner() {
+  if(!heroArr.length) return;
+  let g = heroArr[hIdx];
+  document.getElementById('hc-tag').innerText = g.tag;
+  document.getElementById('hc-title').innerText = g.n;
+  document.getElementById('hc-time').innerText = g.sub;
+  document.getElementById('hc-dev').innerText = g.dev;
+  
+  let imgEl = document.getElementById('hc-img');
+  imgEl.style.opacity = 0;
+  setTimeout(() => {
+    imgEl.src = g.bg;
+    imgEl.style.opacity = 0.8;
+  }, 300);
+  
+  document.getElementById('hc-box').onclick = () => opMdl(g.id);
+}
+
+
+  //CARD
+function makethecard(g, type) {
+  let playTimeStr = formatPlaytimeHover(lsDB[g.id] ? lsDB[g.id].t : 0);
+  let timeHTML = `<div class="c-time-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Time Played: ${playTimeStr}</div>`;
+  let img = type === 'h' ? g.bg : g.img;
+  let searchData = (g.n + ' ' + g.tags.join(' ') + ' ' + g.dev).toLowerCase();
+  
+  return `<div class="c-${type}" onclick="opMdl('${g.id}')" data-search="${searchData}">
+            <img src="${img}">
+            <div class="c-inf"><h3>${g.n}</h3><span>${g.dev}</span>${timeHTML}</div>
+          </div>`;
+}
+
+function filterLib() {
+  let query = document.getElementById('lib-search').value.toLowerCase();
+  let cards = document.querySelectorAll('#g-lib .c-v');
+  cards.forEach(c => {
+    let text = c.getAttribute('data-search');
+    c.style.display = text.includes(query) ? 'block' : 'none';
+  });
+}
+
+function chgTab(v) {
+  document.querySelectorAll('.d-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-view').forEach(s => s.classList.remove('active'));
+  
+  document.getElementById('b-'+v).classList.add('active');
+  document.getElementById('v-'+v).classList.add('active');
+}
+
+// the auto detecting like when the user logged in
+let isAuth = false;
+let devMode = false;
+
+function openAuthTray() {
+  document.getElementById('login-trigger').style.display = 'none';
+  document.getElementById('rac-frame').src = "https://www.raccoongame.com/login?redirect_uri=https%3A%2F%2Fwww.raccoongame.com%2Fwap%2Fdist%2F%23%2Fplatform%2Fset&lang=en";
+  document.getElementById('frame-area').classList.add('show'); // try to fix this stupid login issue.
+}
+
+function markAsLoggedIn() {
+  if(isAuth) return;
+  isAuth = true;
+  document.getElementById('frame-area').classList.remove('show');
+  setTimeout(() => { document.getElementById('frame-area').style.display = 'none'; }, 800);
+  document.getElementById('auth-success').style.display = 'block';
+  document.getElementById('login-trigger').style.display = 'none';
+}
+
+function forceLoginReopen() {
+  document.getElementById('auth-success').style.display = 'none';
+  let f = document.getElementById('rac-frame');
+  f.src = "https://www.raccoongame.com/login?redirect_uri=https%3A%2F%2Fwww.raccoongame.com%2Fwap%2Fdist%2F%23%2Fplatform%2Fset&lang=en";
+  document.getElementById('frame-area').style.display = 'flex';
+  setTimeout(() => { document.getElementById('frame-area').classList.add('show'); }, 50);
+}
+
+// Iframe Loading detection
+let frameLoadCount = 0;
+document.getElementById('rac-frame').addEventListener('load', function() {
+  frameLoadCount++;
+  if(frameLoadCount >= 2 && !devMode) {
+    markAsLoggedIn();
+  }
+});
+
+// SECRET Developer Mode Alt + S , when user does this they can view the iframe even if they logged in
+window.addEventListener('keydown', (e) => {
+  if(e.altKey && e.key.toLowerCase() === 's') {
+    devMode = true;
+    frameLoadCount = 0; // reset
+    forceLoginReopen();
+  }
+});
+
+//  APP LIKE FEELING, so i wanted to open windows
+function showPopup(id) {
+  let el = document.getElementById(id);
+  el.style.display = 'flex';
+  setTimeout(() => el.classList.add('show'), 10);
+}
+
+function hidePopup(id) {
+  let el = document.getElementById(id);
+  el.classList.remove('show');
+  setTimeout(() => el.style.display = 'none', 300);
+}
+
+function closePopupClick(e) {
+  if(e.target.classList.contains('popup-wrap') && e.target.id !== 'p-legal-block') hidePopup(e.target.id);
+}
+
+function goToTutorial() {
+  hidePopup('p-tut-block');
+  clsMdl();
+  chgTab('tut');
+}
+
+// Legal Popup!!
+function checkLegalScroll(el) {
+  if (Math.ceil(el.scrollHeight - el.scrollTop) <= el.clientHeight + 10) {
+    document.getElementById('btn-legal-accept').disabled = false;
+  }
+}
+function acceptLegal() {
+  localStorage.setItem('cine_legal_accepted', 'true');
+  hidePopup('p-legal-block');
+}
+
+// Detail View Logic 
+let cxG = null;
+
+function opMdl(id) {
+  cxG = G_DATA.find(x => x.id === id);
+  let d = lsDB[id] || { t:0, l:null };
+
+  document.getElementById('mdl-bg').src = cxG.bg;
+  document.getElementById('bg-amb').src = cxG.bg;
+  document.getElementById('mdl-post').src = cxG.img;
+  
+  document.getElementById('mdl-t').innerText = cxG.n;
+  document.getElementById('mdl-d').innerText = cxG.dev;
+  document.getElementById('mdl-dc').innerText = cxG.desc;
+  
+  document.getElementById('mdl-tm').innerText = msToTm(d.t);
+  document.getElementById('mdl-lp').innerText = tsToDt(d.l);
+  document.getElementById('mdl-ac').innerText = cxG.ach;
+  
+  document.getElementById('mdl-tg').innerHTML = cxG.tags.map(t => `<div class="m-tg">${t}</div>`).join('');
+  
+  document.getElementById('qm-os').innerText = cxG.rm.os; document.getElementById('qm-cpu').innerText = cxG.rm.cpu;
+  document.getElementById('qm-ram').innerText = cxG.rm.ram; document.getElementById('qm-gpu').innerText = cxG.rm.gpu;
+  document.getElementById('qr-os').innerText = cxG.rr.os; document.getElementById('qr-cpu').innerText = cxG.rr.cpu;
+  document.getElementById('qr-ram').innerText = cxG.rr.ram; document.getElementById('qr-gpu').innerText = cxG.rr.gpu;
+
+  let m = document.getElementById('modal-ui');
+  m.style.display = 'block';
+  setTimeout(() => m.style.opacity = '1', 10);
+}
+
+function clsMdl() {
+  let m = document.getElementById('modal-ui');
+  m.style.opacity = '0';
+  setTimeout(() => m.style.display = 'none', 500);
+}
+
+let wAt = false;
+let dEn = 0;
+let tTr;
+
+function try2launch() {
+  if(gmWin && !gmWin.closed) {
+    showPopup('p-sess-block');
+    return;
+  }
+  showPopup('p-tut-block');
+  wAt = true;
+}
+
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' && wAt) {
+    e.preventDefault(); 
+    dEn++;
+    clearTimeout(tTr);
+    tTr = setTimeout(() => { dEn = 0; }, 500);
+    
+    if(dEn === 2) {
+      hidePopup('p-tut-block');
+      wAt = false; dEn = 0;
+      rnLd();
+    }
+  }
+});
+
+let gmWin = null;
+let gmId = null;
+let gInt = null;
+let gSs = 0;
+
+function tglV(v){
+  if(v==='h'){
+    document.getElementById('app-wrap').style.display='block';
+    document.querySelector('.dock-wrap').style.display='flex';
+    document.getElementById('game-layer').style.display='none';
+    document.getElementById('bg-amb').style.display='block';
+  }else{
+    document.getElementById('app-wrap').style.display='none';
+    document.querySelector('.dock-wrap').style.display='none';
+    document.getElementById('game-layer').style.display='block';
+    document.getElementById('bg-amb').style.display='none';
+  }
+}
+
+function clsGm(e){
+  if(e)e.stopPropagation();
+  document.getElementById('n-game').style.display='none';
+  document.getElementById('gF').src="";
+  if(gmWin)gmWin.closed=true;
+  if(document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+  if(document.exitPointerLock)document.exitPointerLock();
+  if(navigator.keyboard)navigator.keyboard.unlock();
+  tglV('h');
+}
+
+function mnLk(){
+  if(!document.fullscreenElement)document.body.requestFullscreen().then(()=>{
+    if(navigator.keyboard)navigator.keyboard.lock(['Escape']);
+  }).catch(()=>{});
+  document.body.requestPointerLock();
+}
+
+let aZc=3;let aZi=null;let aZd=false;
+let aCc=3;let aCi=null;let aCd=false;
+window.addEventListener('keydown',(e)=>{
+  if(e.altKey&&e.key.toLowerCase()==='z'){
+    if(!aZd&&document.getElementById('game-layer').style.display==='block'){
+      let d=document.getElementById('tD');
+      aZd=true;aZc=3;d.innerText=aZc;d.style.top='20px';
+      aZi=setInterval(()=>{
+        aZc--;
+        if(aZc>0)d.innerText=aZc;
+        else{
+          clearInterval(aZi);d.style.top='-100px';
+          if(!document.fullscreenElement)document.body.requestFullscreen().then(()=>{
+            if(navigator.keyboard)navigator.keyboard.lock(['Escape']);
+          }).catch(()=>{});
+          document.body.requestPointerLock();
+        }
+      },1000);
+    }
+  }
+  if(e.altKey&&e.key.toLowerCase()==='c'){
+    if(!aCd&&document.getElementById('game-layer').style.display==='block'){
+      let d=document.getElementById('eD');
+      aCd=true;aCc=3;d.innerText=aCc;d.style.top='20px';
+      aCi=setInterval(()=>{
+        aCc--;
+        if(aCc>0)d.innerText=aCc;
+        else{
+          clearInterval(aCi);d.style.top='-100px';
+          if(document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+          if(document.exitPointerLock)document.exitPointerLock();
+          if(navigator.keyboard)navigator.keyboard.unlock();
+        }
+      },1000);
+    }
+  }
+});
+window.addEventListener('keyup',(e)=>{
+  if(e.key.toLowerCase()==='z'||e.key==='Alt'){
+    aZd=false;clearInterval(aZi);
+    let td=document.getElementById('tD');
+    if(td)td.style.top='-100px';
+  }
+  if(e.key.toLowerCase()==='c'||e.key==='Alt'){
+    aCd=false;clearInterval(aCi);
+    let ed=document.getElementById('eD');
+    if(ed)ed.style.top='-100px';
+  }
+});
+
+let sessionPopUp=false;
+let sTo=null;
+let sTg=false;
+setInterval(()=>{
+  if(document.getElementById('game-layer').style.display==='block'){
+    try{
+      let f=document.getElementById('gF');
+      if(f.contentWindow.location.href.includes('https://www.raccoongame.com/login?redirect_uri=https%3A%2F%2Fwww.raccoongame.com%2Fwap%2Fdist%2F%23%2Fplatform%2Fset&lang=en')){
+        if(sessionPopUp&&!sTg){
+          sTg=true;
+          sTo=setTimeout(()=>{
+            document.getElementById('lO').style.display='flex';
+            if(document.exitPointerLock)document.exitPointerLock();
+          },10000);
+        }
+      }else{
+        sTg=false;
+        clearTimeout(sTo);
+      }
+    }catch(e){}
+  }else{
+    sTg=false;
+    clearTimeout(sTo);
+  }
+},1500);
+
+function rnLd(){
+  clsMdl();
+  let tU=cxG.url||cxG.path;
+  document.getElementById('n-game-title').innerText=cxG.n;
+  document.getElementById('n-game').style.display='flex';
+  let f=document.getElementById('gF');
+  let s=document.getElementById('bS');
+  let bt=document.getElementById('bS-t');
+  let lo=document.getElementById('lO');
+  if(bt) bt.innerText='Loading '+cxG.n+'...';
+  s.style.display='flex';
+  s.style.opacity='1';
+  lo.style.display='none';
+  tglV('g');
+  gmWin={closed:false,close:function(){clsGm();}};
+  setTimeout(()=>{
+    f.src=tU;
+    setTimeout(()=>{
+      if(s){s.style.opacity='0';setTimeout(()=>s.style.display='none',1000);}
+    },1500);
+  },2500);
+  trStart(cxG.id);
+}
+
+function trStart(id) {
+  if(gInt) clearInterval(gInt);
+  gmId = id;
+  
+  if(!lsDB[id]) lsDB[id] = {t:0, l:Date.now()};
+  lsDB[id].l = Date.now();
+  sLS();
+  
+  gSs = lsDB[id].t;
+  rfrTrk();
+
+  gInt = setInterval(() => {
+    if(gmWin && !gmWin.closed) {
+      gSs++;
+      if(gSs % 5 === 0) { 
+        lsDB[id].t = gSs;
+        lsDB[id].l = Date.now();
+        sLS();
+      }
+    } else {
+      clearInterval(gInt);
+      lsDB[id].t = gSs;
+      lsDB[id].l = Date.now();
+      sLS();
+      
+      gmWin = null; gmId = null; gInt = null;
+      rfrTrk(); dodeLayout();
+    }
+  }, 1000);
+}
+
+function rfrTrk() {
+  let widg = document.getElementById('tk');
+  
+  if(gmWin && gmId) {
+    let g = G_DATA.find(x => x.id === gmId);
+    if(g) {
+      document.getElementById('tk-img').src = g.img;
+      document.getElementById('tk-lbl').innerText = "Playing Now";
+      document.getElementById('tk-lbl').style.color = "#fff";
+      document.getElementById('tk-nm').innerText = g.n;
+      
+      let btn = document.getElementById('tk-btn');
+      btn.className = "tw-btn quit";
+      btn.innerText = "Quit Game";
+      widg.style.display = "flex";
+    }
+  } else {
+    let pg = Object.keys(lsDB).filter(k => lsDB[k].t > 0);
+    if(pg.length > 0) {
+      let bId = pg.sort((a,b) => lsDB[b].l - lsDB[a].l)[0];
+      let g = G_DATA.find(x => x.id === bId);
+      if(g) {
+        document.getElementById('tk-img').src = g.img;
+        document.getElementById('tk-lbl').innerText = "Last Played";
+        document.getElementById('tk-lbl').style.color = "#a1a1a6";
+        document.getElementById('tk-nm').innerText = g.n;
+        
+        let btn = document.getElementById('tk-btn');
+        btn.className = "tw-btn";
+        btn.innerText = "Launch";
+        widg.style.display = "flex";
+      }
+    } else {
+      widg.style.display = "none";
+    }
+  }
+}
+
+function tkAction() {
+  if(gmWin && !gmWin.closed) {
+    gmWin.close();
+  } else {
+    let pg = Object.keys(lsDB).filter(k => lsDB[k].t > 0);
+    if(pg.length > 0) {
+      let bId = pg.sort((a,b) => lsDB[b].l - lsDB[a].l)[0];
+      cxG = G_DATA.find(x => x.id === bId);
+      try2launch();
+    }
+  }
+}
+
+//IGNORE!!!! im too lazy to remove all dis
+  //let gl =
+
+
+
+  // IDEAS: Windows, Steam, 
+
+
+
+
+
+
+  // function renderHe
+
+
+
+  //
+
+
+
+
+
+
+
+  // TEMP NOT WOKRING EMAIL LIST!: https://temp-mail.org/en/ , https://temp-mail.io/en , https://tempmailo.com/
+</script>
+</body>
+</html>
