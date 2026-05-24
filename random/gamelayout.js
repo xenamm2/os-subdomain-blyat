@@ -93,13 +93,13 @@ const G_DATA = [
    { 
     id: 'MC120', 
     n: "Craft 1.8 Browser (Eagler Craft)", 
-    dev: "Some random dude", 
+    dev: "deno", 
     url: "https://eagle.deno20851.workers.dev", // game link
     img: "https://cdn.mos.cms.futurecdn.net/AZ4nyhrARyZhc69hMXAy3L.jpg",  // thumbnail
     bg: "https://cdn.mos.cms.futurecdn.net/AZ4nyhrARyZhc69hMXAy3L.jpg", // thumbnail
     ach: 45, 
     tags: ["Minecraft", "Open World", "RPG", "Sci-fi"],
-    desc: "Minecraft is a critically acclaimed 3D sandbox video game developed by the Swedish studio Mojang Studios. It has no specific goals, offering players absolute freedom to explore, build, and craft. The game world is made of 3D blocks representing materials like dirt, stone, and wood.",
+    desc: "Craft is a critically acclaimed 3D sandbox video game developed by the Swedish studio Mojang Studios. It has no specific goals, offering players absolute freedom to explore, build, and craft. The game world is made of 3D blocks representing materials like dirt, stone, and wood.",
     rm: { os: "Potato", cpu: "Potato", ram: "Potato", gpu: "Potato" },
     rr: { os: "Monster", cpu: "Monster", ram: "Monster", gpu: "Monster" }
   },
