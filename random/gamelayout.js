@@ -92,9 +92,9 @@ const G_DATA = [
   },
    { 
     id: 'MC120', 
-    n: "Minecraft 1.20 Browser (Eagler Craft)", 
+    n: "Craft 1.8 Browser (Eagler Craft)", 
     dev: "Some random dude", 
-    url: "https://yee.pages.dev/#/bW9yZS9tb3JlL21vZGRlZC9lYWdseWpz", // game link
+    url: "https://eagle.deno20851.workers.dev", // game link
     img: "https://cdn.mos.cms.futurecdn.net/AZ4nyhrARyZhc69hMXAy3L.jpg",  // thumbnail
     bg: "https://cdn.mos.cms.futurecdn.net/AZ4nyhrARyZhc69hMXAy3L.jpg", // thumbnail
     ach: 45, 
