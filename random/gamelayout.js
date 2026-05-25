@@ -116,6 +116,19 @@ const G_DATA = [
     rm: { os: "Potato", cpu: "Potato", ram: "Potato", gpu: "Potato" },
     rr: { os: "Monster", cpu: "Monster", ram: "Monster", gpu: "Monster" }
   },
+       { 
+    id: 'MC112', 
+    n: "Craft 1.12 Browser (Faster) (Eagler Craft)", 
+    dev: "deno", 
+    url: "https://eagle-12-wasm.deno20851.workers.dev", // game link
+    img: "https://cdn.mos.cms.futurecdn.net/AZ4nyhrARyZhc69hMXAy3L.jpg",  // thumbnail
+    bg: "https://cdn.mos.cms.futurecdn.net/AZ4nyhrARyZhc69hMXAy3L.jpg", // thumbnail
+    ach: 47, 
+    tags: ["Minecraft", "Open World", "RPG", "Sci-fi"],
+    desc: "Craft is a critically acclaimed 3D sandbox video game developed by the Swedish studio Mojang Studios. It has no specific goals, offering players absolute freedom to explore, build, and craft. The game world is made of 3D blocks representing materials like dirt, stone, and wood.",
+    rm: { os: "Potato", cpu: "Potato", ram: "Potato", gpu: "Potato" },
+    rr: { os: "Monster", cpu: "Monster", ram: "Monster", gpu: "Monster" }
+  },
   { 
     id: '1015', 
     n: "GUILTY GEAR -STRIVE-", 
