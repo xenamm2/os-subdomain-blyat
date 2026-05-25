@@ -29,22 +29,12 @@ I should have put like helpful comments for ya here and there that can help you.
   --accent: #ffffff;
 }
 
-
-
-
-
-
-
-
-
-
-
   /*BODY */
 body {
   margin: 0; padding: 0; background: var(--bg); color: var(--text);
   font-family: 'Inter', sans-serif; overflow-x: hidden;
   -webkit-font-smoothing: antialiased; 
-  user-select: auto;
+  user-select: auto; /* FIX: ensures you can focus the iframe properly */
   height: 100vh; display: flex; flex-direction: column;
 }
 
@@ -95,7 +85,6 @@ body {
   0% { transform: scale(0.9); }
   100% { transform: scale(1.05); }
 }
-
 
   /*FADE IN! */
 @keyframes fadeIn {
@@ -149,7 +138,6 @@ body {
   transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
-
 
   /*Hobver Animation*/
 .hero-cont:hover {
@@ -218,36 +206,27 @@ body {
 
 .main-dock {
   background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-  
   border: 1px solid var(--border); border-radius: 80px;
   display: flex; align-items: center; padding: 10px 14px;
   box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-  
 }
 
 .d-logo {
   width: 26px; height: 26px; margin: 0 12px 0 10px; object-fit: contain;
   opacity: 0.8; transition: 0.3s; cursor: pointer;
 }
-
   
 .d-logo:hover { opacity: 1; transform: scale(1.1); }
 .d-sep { width: 1px; height: 24px; background: var(--border); margin: 0 6px; }
 
-
-
-
-  
 .d-btn {
   padding: 10px 26px; border-radius: 100px; color: var(--muted);
   font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.3s;
 }
 .d-btn:hover { 
   color: #fff; 
-  background: 
-    rgba(255,255,255,0.05); 
+  background: rgba(255,255,255,0.05); 
 }
-
   
 .d-btn.active { 
   color: #000; 
@@ -321,7 +300,7 @@ body {
   display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 30px;
 }
 .m-play:hover { background: #e0e0e0; box-shadow: 0 10px 25px rgba(255,255,255,0.15); transform: translateY(-3px); }
-/*PLACE .ms here -4/29/26*/
+
 .m-stats { background: rgba(20,20,20,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 25px; display: flex; flex-direction: column; gap: 20px; backdrop-filter: blur(15px);}
 .m-rw { display: flex; justify-content: space-between; align-items: center; }
 .m-rw small { font-size: 12px; color: var(--muted); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
@@ -342,7 +321,7 @@ body {
 .m-ri small { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 600; letter-spacing: 1px;}
 .m-ri span { display: block; font-size: 13px; color: #ccc; font-weight: 400; line-height: 1.5;}
 
-/*  Alert Popups  */
+/* Alert Popups  */
 .popup-wrap {
   position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
   display: flex; justify-content: center; align-items: center; z-index: 999999999999;
@@ -371,7 +350,7 @@ body {
 .popup-btn.secondary { background: rgba(255,255,255,0.1); color: #fff; }
 .popup-btn:not(:disabled):hover { transform: translateY(-2px); }
 
-/*  Tutorial Page n iFrames, uh this is the ui for the Tutorial page i made  */
+/* Tutorial Page n iFrames, uh this is the ui for the Tutorial page i made  */
 .tut-cnt { max-width: 900px; margin: 0 auto; text-align: center; }
 .tut-cnt video { width: 100%; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 30px 60px rgba(0,0,0,0.6); margin-bottom: 30px; background: #000; }
 
@@ -428,9 +407,7 @@ body {
 <! THE Boot Screen !>
 <div id="new-boot">
   <div class="boot-logo-wrapper">
-    
     <img src="https://freepngimg.com/convert-png/89656-icons-circle-computer-black-white-steam" class="boot-icon" alt="Logo">
-    
     <div class="boot-text">Den-CLOUD</div>
   </div>
 </div>
@@ -447,22 +424,16 @@ body {
       <div class="hero-cont" id="hc-box" onclick="">
         <img src="" id="hc-img" class="h-img">
         <div class="h-over">
-         
           <div class="h-tag" id="hc-tag">RESUME</div>
-          
           <h1 class="h-title" id="hc-title">...</h1>
-          
-          
           <div class="h-stat">
-
-            
             <span id="hc-time"></span>
             <span id="hc-dev"></span>
           </div>
         </div>
       </div>
 
-      <div class="sec-head">Games We Recommend</div> <! NOTE: FIND A REAL !>
+      <div class="sec-head">Games We Recommend</div>
       <div class="marquee-wrap">
         <div class="marquee-track" id="g-recom-track"></div>
       </div>
@@ -480,7 +451,7 @@ body {
       <div class="grid-h" id="g-trnd"></div>
     </div>
   </div>
- <! Might add mroe in later updates !>
+
   <div id="v-lib" class="tab-view">
     <div class="sec-head" style="margin-top:0;">Complete Library</div>
     <div class="lib-search-wrap">
@@ -495,21 +466,19 @@ body {
       <h1 style="font-weight: 400; font-size: 42px; margin-bottom: 12px; letter-spacing:-1px;">Setup Guide</h1>
       <p style="color: #888; margin-bottom: 40px; font-size: 15px;">Make sure you watch this quick video so everything runs smoothly.</p>
       
-      <video controls><source src="Tutorial.mp4" type="video/mp4"></video> <! IF YOUR MAKING YOUR OWN VERSION, You can change the path and title for the tutorial or remove it i guess !>
+      <video controls><source src="Tutorial.mp4" type="video/mp4"></video> 
       
       <button class="show-login-btn" id="login-trigger" onclick="openAuthTray()">Log in to play</button>
 
       <div id="auth-success" style="display:none;">
         <div class="auth-success-box">
             <h3>You're All Set!</h3>
-            <p>Your Logged In and ready.</p> <! Auto like detect when the user logs in by checking iframe url !>
+            <p>Your Logged In and ready.</p> 
         </div>
       </div>
       
       <div id="frame-area">
-       
         <div class="f-box" id="frame-wrapper">
-          
          <h3>Log in with Raccoon</h3>
           <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
             <p style="margin: 0 0 10px 0; color: #fff; font-size: 14px; font-weight: 600;">[BETA]: This is temporary, see if you can login by clicking the button below</p>
@@ -520,7 +489,7 @@ body {
         </div>
         <div class="f-box" id="mail-wrapper">
           <h3>Need a temp email?</h3>
-          <iframe class="f-mail" src="https://tempmail.ing/"></iframe> <! this is the link we iframe to the user to give them a temp link !>
+          <iframe class="f-mail" src="https://tempmail.ing/"></iframe>
         </div>
       </div>
     </div>
@@ -600,7 +569,7 @@ body {
   <div class="popup-box" style="max-width: 500px;">
     <div class="popup-icon-container" style="background:rgba(255,200,0,0.1); border:1px solid rgba(255,200,0,0.2);">
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc800" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-    </div> <! putting this here so i dont get in trouble ;) !>
+    </div>
     <h2>Legal Notice & Disclaimer</h2>
     <div id="legal-scroll" style="max-height:160px; overflow-y:auto; font-size:13px; line-height: 1.6; color:#aaa; text-align:left; padding:15px; background:rgba(0,0,0,0.3); border-radius:12px; margin-bottom:20px; border: 1px solid var(--border);" onscroll="checkLegalScroll(this)">
       <p><strong>Please read carefully before proceeding.</strong></p>
@@ -610,13 +579,8 @@ body {
       <p><em>Scroll to the bottom to accept. NOTE THIS PLEASE, YOU MUST ALLOW POP UPS!</em></p><br><br><br><br>
       <p>End of notice.</p>
     </div>
-
-    
     <div class="popup-btn-row">
-      
       <button class="popup-btn primary" id="btn-legal-accept" disabled onclick="acceptLegal()" style="width:100%;">I Agree</button>
-    
-    
     </div>
   </div>
 </div>
@@ -641,19 +605,22 @@ body {
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
     </div>
     <h2>Session Active</h2>
-    <p>You're already playing a game! Make sure to exit your current session before starting a new one.</p> <! feel like i had to add thos cuz why not !>
+    <p>You're already playing a game! Make sure to exit your current session before starting a new one.</p> 
     <div class="popup-btn-row">
-      
       <button class="popup-btn primary" style="width: 100%;" onclick="hidePopup('p-sess-block')">Got it</button>
     </div>
-  
   </div>
 </div>
 
 <div id="game-layer" style="display:none; position:fixed; inset:0; background:#000; z-index:900;">
   <div id="bS" style="position:absolute; inset:0; background:#000; z-index:9002; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; font-family:sans-serif;">
     <h2 id="bS-t" style="margin:0 0 20px 0;">Loading...</h2>
-    <span style="font-size:14px; color:#aaa; text-align:center; max-width:450px; line-height:1.6;">Notice: If you exit fullscreen, the mouse lock will break.<br>Use <b>ALT + Z</b> (hold 3s) to lock mouse and fullscreen.<br>Use <b>ALT + C</b> (hold 3s) to safely exit.</span>
+    <span style="font-size:14px; color:#aaa; text-align:center; max-width:450px; line-height:1.6;">
+        Notice: If you exit fullscreen, the mouse lock will break.<br>
+        Use <b>ALT + Z</b> (hold 3s) to lock mouse and fullscreen.<br>
+        Use <b>ALT + C</b> (hold 3s) to safely exit.<br>
+        <b style="color: #fff;">NEW: Use ALT + F to open the game in a new tab! (Fixes Keyboard/Mouse issues)</b>
+    </span>
   </div>
   <div id="lO" style="position:absolute; inset:0; background:rgba(10,10,15,0.95); z-index:9003; display:none; justify-content:center; align-items:center; flex-direction:column; color:#fff; font-family:sans-serif;">
     <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2" style="margin-bottom:20px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
@@ -664,13 +631,14 @@ body {
   <button id="fB" onclick="mnLk()" style="position:absolute; top:60px; right:20px; z-index:9001; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:10px; border-radius:8px; cursor:pointer;" title="Hold ALT + Z for 3 secs to lock mouse">🖵</button>
   <div id="tD" style="position:absolute; top:-100px; left:50%; transform:translateX(-50%); z-index:9004; background:#000; border:2px solid #fff; border-radius:50%; width:50px; height:50px; display:flex; justify-content:center; align-items:center; color:#fff; font-family:sans-serif; font-weight:bold; font-size:20px; transition:top 0.3s ease;">3</div>
   <div id="eD" style="position:absolute; top:-100px; left:50%; transform:translateX(-50%); z-index:9004; background:#ff4d4d; border:2px solid #fff; border-radius:50%; width:50px; height:50px; display:flex; justify-content:center; align-items:center; color:#fff; font-family:sans-serif; font-weight:bold; font-size:20px; transition:top 0.3s ease;">3</div>
-  <iframe id="gF" allow="autoplay;fullscreen;pointer-lock;keyboard-map;clipboard-read;clipboard-write;gamepad" style="width:100%; height:100%; border:none; display:block; outline:none;"></iframe>
+  
+  <! FIX: Max permissions applied to the iframe below !>
+  <iframe id="gF" allow="autoplay; fullscreen; pointer-lock; keyboard-map; clipboard-read; clipboard-write; gamepad" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock" style="width:100%; height:100%; border:none; display:block; outline:none;"></iframe>
 </div>
 
 <script src="/random/gamelayout.js"></script>
 
 <script>
-//  THE FUNCTIONALITTTYTYYYYYYYYY!!! 
 let lsDB = JSON.parse(localStorage.getItem('cine_store_v10') || '{}');
 function sLS() { localStorage.setItem('cine_store_v10', JSON.stringify(lsDB)); }
 
@@ -688,8 +656,6 @@ function tsToDt(t) {
   return new Date(t).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
 }
 
-
-  // tell the time use rplayed 
 function formatPlaytimeHover(secs) {
   if(!secs) return "00d:00h:00m";
   let d = Math.floor(secs / 86400);
@@ -699,7 +665,6 @@ function formatPlaytimeHover(secs) {
 }
 
 window.addEventListener('load', () => {
-  // legal notice
   if(!localStorage.getItem('cine_legal_accepted')) {
     showPopup('p-legal-block');
   }
@@ -726,7 +691,6 @@ let heroInterval;
 function dodeLayout() {
   if (typeof G_DATA === 'undefined') return;
 
-  // THIS IS THE BANNER LIKE SPINNING LOGIC!
   heroArr = [];
   let pg = Object.keys(lsDB).filter(k => lsDB[k] && lsDB[k].t > 0).sort((a,b) => lsDB[b].l - lsDB[a].l);
   
@@ -738,7 +702,6 @@ function dodeLayout() {
   let rnd = [...G_DATA].sort(() => 0.5 - Math.random()).slice(0, 3);
   rnd.forEach(r => {
     if(!heroArr.find(x => x.id === r.id)) {
-     
       heroArr.push({...r, tag: 'FEATURED', sub: r.tags.join(" • ")});
     }
   });
@@ -750,29 +713,25 @@ function dodeLayout() {
     rendertheBanner();
   }, 6000);
 
-  // CATEGORIES & GRIDS
   let dayHtml = '', trndHtml = '', libHtml = '';
-  
   let popFilter = G_DATA.filter(g => g.n.toLowerCase().includes('poppy'));
   let raceFilter = G_DATA.filter(g => g.tags.includes('Racing') || g.tags.includes('Driving'));
-  let recFilter = [...G_DATA].sort(() => 0.5 - Math.random()).slice(0, 10); // Recommendations
+  let recFilter = [...G_DATA].sort(() => 0.5 - Math.random()).slice(0, 10); 
   
   G_DATA.forEach((g, i) => {
     libHtml += makethecard(g, 'v');
     if(i < 4) dayHtml += makethecard(g, 'h');
-    // Trending limit fix -> Only take next 4
     else if(i >= 4 && i < 8) trndHtml += makethecard(g, 'h');
   });
 
   let recHtml = recFilter.map(g => makethecard(g, 'h')).join('');
 
-  //category functions
-  document.getElementById('g-recom-track').innerHTML = recHtml + recHtml; // DUPE FOR COOL EFFECT!
-  document.getElementById('g-poppy').innerHTML = popFilter.map(g => makethecard(g, 'h')).join(''); //POPPY GAMES
-  document.getElementById('g-race').innerHTML = raceFilter.slice(0, 4).map(g => makethecard(g, 'h')).join(''); //RACING GAMES
+  document.getElementById('g-recom-track').innerHTML = recHtml + recHtml; 
+  document.getElementById('g-poppy').innerHTML = popFilter.map(g => makethecard(g, 'h')).join(''); 
+  document.getElementById('g-race').innerHTML = raceFilter.slice(0, 4).map(g => makethecard(g, 'h')).join(''); 
   document.getElementById('g-day').innerHTML = dayHtml;
-  document.getElementById('g-trnd').innerHTML = trndHtml; //TRENDING
-  document.getElementById('g-lib').innerHTML = libHtml; //LIBRARY
+  document.getElementById('g-trnd').innerHTML = trndHtml; 
+  document.getElementById('g-lib').innerHTML = libHtml; 
 
   rfrTrk();
 }
@@ -795,8 +754,6 @@ function rendertheBanner() {
   document.getElementById('hc-box').onclick = () => opMdl(g.id);
 }
 
-
-  //CARD
 function makethecard(g, type) {
   let playTimeStr = formatPlaytimeHover(lsDB[g.id] ? lsDB[g.id].t : 0);
   let timeHTML = `<div class="c-time-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Time Played: ${playTimeStr}</div>`;
@@ -826,14 +783,13 @@ function chgTab(v) {
   document.getElementById('v-'+v).classList.add('active');
 }
 
-// the auto detecting like when the user logged in
 let isAuth = false;
 let devMode = false;
 
 function openAuthTray() {
   document.getElementById('login-trigger').style.display = 'none';
   document.getElementById('rac-frame').src = "https://www.raccoongame.com/login?redirect_uri=https%3A%2F%2Fwww.raccoongame.com%2Fwap%2Fdist%2F%23%2Fplatform%2Fset&lang=en";
-  document.getElementById('frame-area').classList.add('show'); // try to fix this stupid login issue.
+  document.getElementById('frame-area').classList.add('show'); 
 }
 
 function markAsLoggedIn() {
@@ -853,7 +809,6 @@ function forceLoginReopen() {
   setTimeout(() => { document.getElementById('frame-area').classList.add('show'); }, 50);
 }
 
-// Iframe Loading detection
 let frameLoadCount = 0;
 document.getElementById('rac-frame').addEventListener('load', function() {
   frameLoadCount++;
@@ -862,16 +817,14 @@ document.getElementById('rac-frame').addEventListener('load', function() {
   }
 });
 
-// SECRET Developer Mode Alt + S , when user does this they can view the iframe even if they logged in
 window.addEventListener('keydown', (e) => {
   if(e.altKey && e.key.toLowerCase() === 's') {
     devMode = true;
-    frameLoadCount = 0; // reset
+    frameLoadCount = 0; 
     forceLoginReopen();
   }
 });
 
-//  APP LIKE FEELING, so i wanted to open windows
 function showPopup(id) {
   let el = document.getElementById(id);
   el.style.display = 'flex';
@@ -894,7 +847,6 @@ function goToTutorial() {
   chgTab('tut');
 }
 
-// Legal Popup!!
 function checkLegalScroll(el) {
   if (Math.ceil(el.scrollHeight - el.scrollTop) <= el.clientHeight + 10) {
     document.getElementById('btn-legal-accept').disabled = false;
@@ -905,7 +857,6 @@ function acceptLegal() {
   hidePopup('p-legal-block');
 }
 
-// Detail View Logic 
 let cxG = null;
 
 function opMdl(id) {
@@ -1000,16 +951,32 @@ function clsGm(e){
   tglV('h');
 }
 
+// FIX: Ensure iframe focus when manual locking
 function mnLk(){
+  let f = document.getElementById('gF');
   if(!document.fullscreenElement)document.body.requestFullscreen().then(()=>{
     if(navigator.keyboard)navigator.keyboard.lock(['Escape']);
   }).catch(()=>{});
+  if(f) f.focus(); // Force the game frame to receive key strokes
   document.body.requestPointerLock();
 }
 
 let aZc=3;let aZi=null;let aZd=false;
 let aCc=3;let aCi=null;let aCd=false;
+
+// FIX: Added ALT + F listener to launch game in new tab!
 window.addEventListener('keydown',(e)=>{
+  // OPEN IN NEW TAB FIX
+  if(e.altKey && e.key.toLowerCase() === 'f') {
+    if(document.getElementById('game-layer').style.display === 'block' && cxG) {
+      e.preventDefault();
+      let targetUrl = cxG.url || cxG.path;
+      window.open(targetUrl, '_blank'); // Open the game directly
+      clsGm(); // Close the embedded player to save memory/audio
+    }
+  }
+
+  // Existing locking shortcuts
   if(e.altKey&&e.key.toLowerCase()==='z'){
     if(!aZd&&document.getElementById('game-layer').style.display==='block'){
       let d=document.getElementById('tD');
@@ -1019,10 +986,7 @@ window.addEventListener('keydown',(e)=>{
         if(aZc>0)d.innerText=aZc;
         else{
           clearInterval(aZi);d.style.top='-100px';
-          if(!document.fullscreenElement)document.body.requestFullscreen().then(()=>{
-            if(navigator.keyboard)navigator.keyboard.lock(['Escape']);
-          }).catch(()=>{});
-          document.body.requestPointerLock();
+          mnLk(); // Re-use the fixed lock function
         }
       },1000);
     }
@@ -1044,6 +1008,7 @@ window.addEventListener('keydown',(e)=>{
     }
   }
 });
+
 window.addEventListener('keyup',(e)=>{
   if(e.key.toLowerCase()==='z'||e.key==='Alt'){
     aZd=false;clearInterval(aZi);
@@ -1188,32 +1153,6 @@ function tkAction() {
     }
   }
 }
-
-//IGNORE!!!! im too lazy to remove all dis
-  //let gl =
-
-
-
-  // IDEAS: Windows, Steam, 
-
-
-
-
-
-
-  // function renderHe
-
-
-
-  //
-
-
-
-
-
-
-
-  // TEMP NOT WOKRING EMAIL LIST!: https://temp-mail.org/en/ , https://temp-mail.io/en , https://tempmailo.com/
 </script>
 </body>
 </html>
