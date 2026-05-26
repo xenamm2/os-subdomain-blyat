@@ -92,7 +92,7 @@ const G_DATA = [
   },
    { 
     id: 'MC120', 
-    n: "Craft 1.8.8 Browser (Eagler Craft)", 
+    n: "Eagler Craft 1.8.8 Browser", 
     dev: "deno", 
     url: "https://eagle.deno20851.workers.dev", // game link
     img: "https://raw.githubusercontent.com/xenamm2/os-subdomain-blyat/refs/heads/main/mc.jpg",  // thumbnail
@@ -104,8 +104,8 @@ const G_DATA = [
     rr: { os: "Monster", cpu: "Monster", ram: "Monster", gpu: "Monster" }
   },
      { 
-    id: 'MC112', 
-    n: "Craft 1.12 Browser (Eagler Craft)", 
+    id: 'MC111', 
+    n: "Eagler Craft 1.12 Browser", 
     dev: "deno", 
     url: "https://eagle-newer.deno20851.workers.dev/", // game link
     img: "https://raw.githubusercontent.com/xenamm2/os-subdomain-blyat/refs/heads/main/mc.jpg",  // thumbnail
@@ -118,7 +118,7 @@ const G_DATA = [
   },
        { 
     id: 'MC112', 
-    n: "Craft 1.12 Browser (Faster) (Eagler Craft)", 
+    n: "Eagler Craft 1.12 Browser (Faster)", 
     dev: "deno", 
     url: "https://eagle-12-wasm.deno20851.workers.dev", // game link
     img: "https://raw.githubusercontent.com/xenamm2/os-subdomain-blyat/refs/heads/main/mc.jpg",  // thumbnail
