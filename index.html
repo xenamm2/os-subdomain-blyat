@@ -34,7 +34,11 @@ body {
   margin: 0; padding: 0; background: var(--bg); color: var(--text);
   font-family: 'Inter', sans-serif; overflow-x: hidden;
   -webkit-font-smoothing: antialiased; 
-  user-select: auto; /* FIX: ensures you can focus the iframe properly */
+  /* Prevent text selection globally to make it feel like an OS */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   height: 100vh; display: flex; flex-direction: column;
 }
 
@@ -121,6 +125,11 @@ body {
   background: rgba(255,255,255,0.05); border: 1px solid var(--border);
   color: #fff; font-size: 15px; outline: none; transition: 0.3s;
   font-family: 'Inter', sans-serif; backdrop-filter: blur(10px);
+  /* Force text selection ON specifically for the search bar so typing works */
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
 }
 .lib-search-wrap input:focus { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .lib-search-wrap svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; stroke: #aaa; }
@@ -715,8 +724,21 @@ function dodeLayout() {
 
   let dayHtml = '', trndHtml = '', libHtml = '';
   let popFilter = G_DATA.filter(g => g.n.toLowerCase().includes('poppy'));
-  let raceFilter = G_DATA.filter(g => g.tags.includes('Racing') || g.tags.includes('Driving'));
-  let recFilter = [...G_DATA].sort(() => 0.5 - Math.random()).slice(0, 10); 
+  let raceFilter = G_DATA.filter(g => g.tags && (g.tags.includes('Racing') || g.tags.includes('Driving')));
+  
+  // DYNAMIC MINECRAFT FILTERING FOR MARQUEE
+  // 1. Fully shuffle the catalog first
+  let shuffledData = [...G_DATA].sort(() => 0.5 - Math.random());
+
+  // 2. Sort again to push "Minecraft" tagged games to the front of the list
+  let recFilter = shuffledData.sort((a, b) => {
+    let aIsMc = a.tags && a.tags.includes("Minecraft");
+    let bIsMc = b.tags && b.tags.includes("Minecraft");
+    
+    if (aIsMc && !bIsMc) return -1; // Push 'a' to the front
+    if (!aIsMc && bIsMc) return 1;  // Push 'b' to the front
+    return 0;                       // Maintain relative random order
+  }).slice(0, 10); 
   
   G_DATA.forEach((g, i) => {
     libHtml += makethecard(g, 'v');
@@ -726,7 +748,8 @@ function dodeLayout() {
 
   let recHtml = recFilter.map(g => makethecard(g, 'h')).join('');
 
-  document.getElementById('g-recom-track').innerHTML = recHtml + recHtml; 
+  // Duplicated 4 times to ensure the marquee infinitely scrolls without gaps
+  document.getElementById('g-recom-track').innerHTML = recHtml + recHtml + recHtml + recHtml; 
   document.getElementById('g-poppy').innerHTML = popFilter.map(g => makethecard(g, 'h')).join(''); 
   document.getElementById('g-race').innerHTML = raceFilter.slice(0, 4).map(g => makethecard(g, 'h')).join(''); 
   document.getElementById('g-day').innerHTML = dayHtml;
@@ -758,7 +781,7 @@ function makethecard(g, type) {
   let playTimeStr = formatPlaytimeHover(lsDB[g.id] ? lsDB[g.id].t : 0);
   let timeHTML = `<div class="c-time-hover"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Time Played: ${playTimeStr}</div>`;
   let img = type === 'h' ? g.bg : g.img;
-  let searchData = (g.n + ' ' + g.tags.join(' ') + ' ' + g.dev).toLowerCase();
+  let searchData = (g.n + ' ' + (g.tags ? g.tags.join(' ') : '') + ' ' + g.dev).toLowerCase();
   
   return `<div class="c-${type}" onclick="opMdl('${g.id}')" data-search="${searchData}">
             <img src="${img}">
@@ -875,7 +898,7 @@ function opMdl(id) {
   document.getElementById('mdl-lp').innerText = tsToDt(d.l);
   document.getElementById('mdl-ac').innerText = cxG.ach;
   
-  document.getElementById('mdl-tg').innerHTML = cxG.tags.map(t => `<div class="m-tg">${t}</div>`).join('');
+  document.getElementById('mdl-tg').innerHTML = cxG.tags ? cxG.tags.map(t => `<div class="m-tg">${t}</div>`).join('') : '';
   
   document.getElementById('qm-os').innerText = cxG.rm.os; document.getElementById('qm-cpu').innerText = cxG.rm.cpu;
   document.getElementById('qm-ram').innerText = cxG.rm.ram; document.getElementById('qm-gpu').innerText = cxG.rm.gpu;
@@ -951,32 +974,28 @@ function clsGm(e){
   tglV('h');
 }
 
-// FIX: Ensure iframe focus when manual locking
 function mnLk(){
   let f = document.getElementById('gF');
   if(!document.fullscreenElement)document.body.requestFullscreen().then(()=>{
     if(navigator.keyboard)navigator.keyboard.lock(['Escape']);
   }).catch(()=>{});
-  if(f) f.focus(); // Force the game frame to receive key strokes
+  if(f) f.focus(); 
   document.body.requestPointerLock();
 }
 
 let aZc=3;let aZi=null;let aZd=false;
 let aCc=3;let aCi=null;let aCd=false;
 
-// FIX: Added ALT + F listener to launch game in new tab!
 window.addEventListener('keydown',(e)=>{
-  // OPEN IN NEW TAB FIX
   if(e.altKey && e.key.toLowerCase() === 'f') {
     if(document.getElementById('game-layer').style.display === 'block' && cxG) {
       e.preventDefault();
       let targetUrl = cxG.url || cxG.path;
-      window.open(targetUrl, '_blank'); // Open the game directly
-      clsGm(); // Close the embedded player to save memory/audio
+      window.open(targetUrl, '_blank'); 
+      clsGm(); 
     }
   }
 
-  // Existing locking shortcuts
   if(e.altKey&&e.key.toLowerCase()==='z'){
     if(!aZd&&document.getElementById('game-layer').style.display==='block'){
       let d=document.getElementById('tD');
@@ -986,7 +1005,7 @@ window.addEventListener('keydown',(e)=>{
         if(aZc>0)d.innerText=aZc;
         else{
           clearInterval(aZi);d.style.top='-100px';
-          mnLk(); // Re-use the fixed lock function
+          mnLk(); 
         }
       },1000);
     }
@@ -1029,7 +1048,7 @@ setInterval(()=>{
   if(document.getElementById('game-layer').style.display==='block'){
     try{
       let f=document.getElementById('gF');
-      if(f.contentWindow.location.href.includes('https://www.raccoongame.com/login?redirect_uri=https%3A%2F%2Fwww.raccoongame.com%2Fwap%2Fdist%2F%23%2Fplatform%2Fset&lang=en')){
+      if(f.contentWindow.location.href.includes('https://www.raccoongame.com/login')){
         if(sessionPopUp&&!sTg){
           sTg=true;
           sTo=setTimeout(()=>{
